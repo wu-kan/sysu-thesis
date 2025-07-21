@@ -428,7 +428,7 @@
 \RequirePackage{booktabs}
 \RequirePackage{color}
 \RequirePackage{colortbl}
-\RequirePackage{xcolor}
+\RequirePackage[dvipsnames,x11names]{xcolor}
 \RequirePackage{titletoc}
 \RequirePackage{caption}
 \RequirePackage{subcaption}
