@@ -16,20 +16,20 @@ main : $(MAIN).pdf
 
 pre : $(PRE).pdf
 
-all : main doc pre
+all : main pre doc
 
 cls : $(CLSFILES) $(BSTFILES)
 
 doc : $(NAME)-guide.pdf
 
 $(MAIN).pdf : main.tex $(CLSFILES) $(BSTFILES) FORCE_MAKE
-	$(LATEXMK) -jobname $@ $<
+	$(LATEXMK) -pdf -jobname $@ $<
 
 $(PRE).pdf : pre.tex FORCE_MAKE
-	$(LATEXMK) -jobname $@ $<
+	$(LATEXMK) -pdf -jobname $@ $<
 
 $(NAME)-guide.pdf : $(NAME)-guide.tex FORCE_MAKE
-	$(LATEXMK) -jobname $@ $<
+	$(LATEXMK) -pdf -jobname $@ $<
 
 clean : FORCE_MAKE
 	$(LATEXMK) -c main.tex pre.tex $(NAME)-guide.tex
@@ -44,7 +44,7 @@ install : cls doc
 	cp $(NAME).pdf $(TEXMF)/doc/latex/$(NAME)
 	cp $(CLSFILES) $(TEXMF)/tex/latex/$(NAME)
 
-zip : main doc
+zip : main pre doc
 	ln -sf . $(NAME)
 	zip -r ../$(NAME)-$(VERSION).zip $(NAME)/{*.md,LICENSE,\
 	$(NAME)-guide.tex,$(NAME)-guide.pdf,$(NAME).cls,*.bst,*.bbx,*.cbx,figures,\

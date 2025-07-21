@@ -41,10 +41,22 @@ jobs:
           apt-get update -y
           apt-get install --no-install-recommends -y ttf-mscorefonts-installer make fonts-arphic-ukai fonts-noto-cjk-extra
           fc-cache
+
+          sed -i 's| degree=bachelor| degree=doctor|' main.tex
+          MAIN=main-doctor make main
+
+          sed -i 's| degree=doctor| degree=master|' main.tex
+          MAIN=main-master make main
+
+          sed -i 's| degree=master| degree=bachelor|' main.tex
+          MAIN=main-bachelor make main
+
+          make pre
+
           make all
           sed -i 's| fontset=fandol,| fontset=ubuntu,|' main.tex
           sed -i 's| fontset=fandol,| fontset=ubuntu,|' pre.tex
-          MAIN=main-ubuntu PRE=pre-ubuntu make all
+          MAIN=main-bachelor-ubuntu PRE=pre-ubuntu make all
 
       - uses: actions/upload-artifact@v4
         with:
