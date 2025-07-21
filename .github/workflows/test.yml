@@ -54,7 +54,7 @@ jobs:
         with:
           path: |
             main.pdf
-            sysuthesis.guide.pdf
+            sysuthesis-guide.pdf
             pre.*.pdf
 
       - name: Release
