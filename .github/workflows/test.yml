@@ -43,26 +43,35 @@ jobs:
           fc-cache
 
           sed -i 's| degree=bachelor| degree=doctor|' main.tex
-          MAIN=main-doctor make main
+          make main
+          mv main.pdf main-doctor.pdf
+          make cleanall
 
           sed -i 's| degree=doctor| degree=master|' main.tex
-          MAIN=main-master make main
+          make main
+          mv main.pdf main-master.pdf
+          make cleanall
 
           sed -i 's| degree=master| degree=bachelor|' main.tex
-          MAIN=main-bachelor make main
+          make main
+          mv main.pdf main-bachelor.pdf
+          make cleanall
 
           make pre
+          mv pre.pdf pre.fandol.pdf
 
-          make all
           sed -i 's| fontset=fandol,| fontset=ubuntu,|' main.tex
           sed -i 's| fontset=fandol,| fontset=ubuntu,|' pre.tex
-          MAIN=main-bachelor-ubuntu PRE=pre-ubuntu make all
+          make all
+
+          mv main.pdf main-bachelor-ubuntu.pdf
+          mv pre.pdf pre-ubuntu.pdf
 
       - uses: actions/upload-artifact@v4
         with:
           path: |
-            main*.pdf
-            pre*.pdf
+            main-*.pdf
+            pre-*.pdf
             sysuthesis-guide.pdf
 
       - name: Release
