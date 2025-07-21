@@ -23,13 +23,13 @@ cls : $(CLSFILES) $(BSTFILES)
 doc : $(NAME)-guide.pdf
 
 $(MAIN).pdf : main.tex $(CLSFILES) $(BSTFILES) FORCE_MAKE
-	$(LATEXMK) -jobname $@ $<
+	$(LATEXMK) $<
 
 $(PRE).pdf : pre.tex FORCE_MAKE
-	$(LATEXMK) -jobname $@ $<
+	$(LATEXMK) $<
 
 $(NAME)-guide.pdf : $(NAME)-guide.tex FORCE_MAKE
-	$(LATEXMK) -jobname $@ $<
+	$(LATEXMK) $<
 
 clean : FORCE_MAKE
 	$(LATEXMK) -c main.tex pre.tex $(NAME)-guide.tex
