@@ -42,25 +42,22 @@ jobs:
           apt-get install --no-install-recommends -y ttf-mscorefonts-installer make fonts-arphic-ukai fonts-noto-cjk-extra
           fc-cache
           make all
-          xelatex -shell-escape pre.tex
-          xelatex -shell-escape pre.tex
-          mv pre.pdf pre.fandol.pdf
+          sed -i 's| fontset=fandol,| fontset=ubuntu,|' main.tex
           sed -i 's| fontset=fandol,| fontset=ubuntu,|' pre.tex
-          xelatex -shell-escape pre.tex
-          xelatex -shell-escape pre.tex
-          mv pre.pdf pre.ubuntu.pdf
+          MAIN=main-ubuntu PRE=pre-ubuntu make all
 
       - uses: actions/upload-artifact@v4
         with:
           path: |
-            main.pdf
+            main*.pdf
+            pre*.pdf
             sysuthesis-guide.pdf
-            pre.*.pdf
 
       - name: Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            main.*.pdf
-            pre.*.pdf
+            main*.pdf
+            pre*.pdf
+            sysuthesis-guide.pdf

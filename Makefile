@@ -1,5 +1,6 @@
 MAIN = main
 NAME = sysuthesis
+PRE = pre
 CLSFILES = $(NAME).cls
 BSTFILES = $(NAME)-numerical.bst
 
@@ -13,23 +14,28 @@ TEXMF = $(shell kpsewhich --var-value TEXMFHOME)
 
 main : $(MAIN).pdf
 
-all : main doc
+pre : $(PRE).pdf
+
+all : main doc pre
 
 cls : $(CLSFILES) $(BSTFILES)
 
 doc : $(NAME)-guide.pdf
 
-$(MAIN).pdf : $(MAIN).tex $(CLSFILES) $(BSTFILES) FORCE_MAKE
+$(MAIN).pdf : main.tex $(CLSFILES) $(BSTFILES) FORCE_MAKE
+	$(LATEXMK) $<
+
+$(PRE).pdf : pre.tex FORCE_MAKE
 	$(LATEXMK) $<
 
 $(NAME)-guide.pdf : $(NAME)-guide.tex FORCE_MAKE
 	$(LATEXMK) $<
 
 clean : FORCE_MAKE
-	$(LATEXMK) -c $(MAIN).tex $(NAME)-guide.tex
+	$(LATEXMK) -c main.tex pre.tex $(NAME)-guide.tex
 
 cleanall :
-	$(LATEXMK) -C $(MAIN).tex $(NAME)-guide.tex
+	$(LATEXMK) -C main.tex pre.tex $(NAME)-guide.tex
 
 install : cls doc
 	mkdir -p $(TEXMF)/{doc,source,tex}/latex/$(NAME)
@@ -42,6 +48,6 @@ zip : main doc
 	ln -sf . $(NAME)
 	zip -r ../$(NAME)-$(VERSION).zip $(NAME)/{*.md,LICENSE,\
 	$(NAME)-guide.tex,$(NAME)-guide.pdf,$(NAME).cls,*.bst,*.bbx,*.cbx,figures,\
-	$(MAIN).tex,sysusetup.tex,chapters,bib,$(MAIN).pdf,\
+	main.tex,pre.tex,sysusetup.tex,chapters,bib,$(MAIN).pdf,$(PRE).pdf,\
 	latexmkrc,Makefile}
 	rm $(NAME)
