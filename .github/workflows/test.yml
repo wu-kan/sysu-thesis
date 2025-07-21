@@ -58,7 +58,7 @@ jobs:
           make cleanall
 
           make pre
-          mv pre.pdf pre.fandol.pdf
+          mv pre.pdf pre-fandol.pdf
 
           sed -i 's| fontset=fandol,| fontset=ubuntu,|' main.tex
           sed -i 's| fontset=fandol,| fontset=ubuntu,|' pre.tex
